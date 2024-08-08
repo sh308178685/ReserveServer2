@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 import pymysql
 import config
 
@@ -22,3 +24,10 @@ from wxcloudrun import views
 
 # 加载配置
 app.config.from_object('config')
+
+from model import User, Venue, Booking
+
+admin = Admin(app, name='管理后台', template_mode='bootstrap3')
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Venue, db.session))
+admin.add_view(ModelView(Booking, db.session))
